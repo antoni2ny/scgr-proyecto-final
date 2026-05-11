@@ -6,28 +6,58 @@ Autor: Calderón Díaz Antoni Jair
 
 ## Tecnologías utilizadas
 
-- Java 21
+- Java 17
 - Spring Boot
 - Spring MVC
 - Spring Security
 - Thymeleaf
+- JWT
 - MariaDB
 - Hibernate / JPA
 - Maven
 - Bootstrap
 - OpenPDF
+- Lombok
 
 ## Descripción
 
 SCGR es una aplicación web para la administración, generación y consulta de reportes administrativos.
-El sistema implementa autenticación mediante Spring Security y JWT.
+
+El sistema implementa autenticación y autorización mediante Spring Security y JWT.
 
 Al iniciar sesión:
 - Se genera un Access Token
 - Se genera un Refresh Token
-- Ambos se almacenan en cookies HTTPOnly
+- Ambos se almacenan mediante cookies HTTPOnly
 
-El sistema utiliza filtros personalizados para validar los JWT en cada petición y controlar el acceso según roles.
+El sistema utiliza filtros personalizados para validar los JWT en cada petición y controlar el acceso según roles de usuario.
+
+## Características principales
+
+- Inicio de sesión seguro mediante Spring Security
+- Autenticación basada en JWT
+- Uso de Refresh Token
+- Manejo de roles:
+    - ADMIN
+    - USER
+    - CONSULTA
+- CRUD de usuarios
+- CRUD de reportes
+- Control de acceso por roles
+- Generación de reportes PDF
+- Bitácora de movimientos
+- Validaciones en formularios
+- Interfaz web responsive con Bootstrap
+
+## Flujo general de uso
+
+1. El usuario inicia sesión en el sistema.
+2. Spring Security valida las credenciales.
+3. Se generan Access Token y Refresh Token.
+4. Los tokens se almacenan en cookies HTTPOnly.
+5. El usuario accede a las funcionalidades según su rol.
+6. El filtro personalizado JWT valida la autenticación en cada petición.
+7. El usuario puede cerrar sesión eliminando los tokens almacenados.
 
 ## Instrucciones de despliegue
 
@@ -46,17 +76,20 @@ Los scripts SQL se encuentran dentro de la carpeta:
 database/
 
 Archivos incluidos:
-- schema.sql
-- data.sql
+- `schema.sql`
+- `data.sql`
 
 ## Usuarios de prueba
 
-- ADMIN: 1001
-- USER: 200
-- CONSULTA: 3001
+| Rol | Usuario | Contraseña |
+|------|---------|-------------|
+| ADMIN | 1001    | 1234 |
+| USER | 2001    | 1234 |
+| CONSULTA | 3001    | 1234 |
 
-## Contraseñas en orden
+## Notas
 
-- ADMIN: 1234
-- USER: 1234
-- CONSULTA: 1234
+- El proyecto utiliza autenticación basada en JWT.
+- Los tokens se almacenan mediante cookies HTTPOnly.
+- El sistema implementa filtros personalizados con Spring Security.
+- El proyecto fue desarrollado con fines académicos para el Diplomado Desarrollo de Sistemas con Tecnología Java Emisión 18.
