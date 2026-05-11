@@ -20,6 +20,14 @@ Autor: Calderón Díaz Antoni Jair
 ## Descripción
 
 SCGR es una aplicación web para la administración, generación y consulta de reportes administrativos.
+El sistema implementa autenticación mediante Spring Security y JWT.
+
+Al iniciar sesión:
+- Se genera un Access Token
+- Se genera un Refresh Token
+- Ambos se almacenan en cookies HTTPOnly
+
+El sistema utiliza filtros personalizados para validar los JWT en cada petición y controlar el acceso según roles.
 
 ## Instrucciones de despliegue
 
