@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import dgtic.core.security.jwt.JwtAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import dgtic.core.security.jwt.JwtAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -18,6 +21,8 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     private final UserDetailsService userDetailsService;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthenticationSuccessHandler jwtAuthenticationSuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,8 +31,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
 
                         .requestMatchers(
-                                "/", "/login", "/bootstrap/**", "/iconos/**", "/image/**",
-                                "/css/**", "/js/**", "/images/**", "/webjars/**"
+                                "/", "/login", "/refresh-token", "/bootstrap/**", "/iconos/**",
+                                "/image/**", "/css/**", "/js/**", "/images/**", "/webjars/**"
                         ).permitAll()
 
                         .requestMatchers("/usuarios/**").hasRole("ADMIN")
@@ -46,7 +51,7 @@ public class SecurityConfiguration {
 
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/principal", true)
+                        .successHandler(jwtAuthenticationSuccessHandler)
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )
@@ -54,12 +59,19 @@ public class SecurityConfiguration {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout=true")
+                        .deleteCookies(
+                                "accessToken",
+                                "refreshToken",
+                                "JSESSIONID"
+                        )
                         .permitAll()
                 )
 
                 .exceptionHandling(exception -> exception
                         .accessDeniedPage("/sin-acceso")
-                );
+                )
+                .addFilterBefore(jwtAuthenticationFilter,
+                    UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
