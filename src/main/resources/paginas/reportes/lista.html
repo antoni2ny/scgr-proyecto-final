@@ -13,9 +13,11 @@
            th:href="@{/reportes/nuevo}">
             Nuevo reporte
         </a>
-        <a class="btn btn-danger mb-3"
-           th:href="@{/reportes-pdf}">
+        <a class="btn btn-danger"
+           th:href="@{/reportes-pdf(buscar=${buscar})}"
+           target="_blank">
             Generar PDF
+
         </a>
         <form th:action="@{/reportes}"
               method="get"

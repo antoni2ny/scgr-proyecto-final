@@ -14,6 +14,10 @@ import org.springframework.web.servlet.view.document.AbstractPdfView;
 import java.awt.*;
 import java.util.List;
 import java.util.Map;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Paragraph;
 
 @Component
 public class ReportesPdf extends AbstractPdfView {
@@ -28,6 +32,16 @@ public class ReportesPdf extends AbstractPdfView {
         response.setHeader("Content-Disposition", "inline; filename=reportes.pdf");
 
         List<Reporte> datos = (List<Reporte>) model.get("datos");
+
+        Font tituloFont =
+                FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16);
+        Paragraph titulo = new Paragraph(
+                "SCGR - Sistema de Control y Generación de Reportes",
+                tituloFont
+        );
+        titulo.setAlignment(Element.ALIGN_CENTER);
+        titulo.setSpacingAfter(15f);
+        document.add(titulo);
 
         PdfPTable tabla = new PdfPTable(6);
         tabla.setWidthPercentage(100);

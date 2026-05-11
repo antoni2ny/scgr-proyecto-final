@@ -26,6 +26,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import dgtic.core.service.bitacora.BitacoraService;
 
+import java.util.List;
+
 @Controller
 public class ReporteController {
 
@@ -144,9 +146,17 @@ public class ReporteController {
     }
 
     @GetMapping("/reportes-pdf")
-    public ModelAndView generarPdf() {
+    public ModelAndView generarPdf(
+            @RequestParam(name = "buscar", required = false) String buscar) {
         ModelAndView mav = new ModelAndView(reportesPdf);
-        mav.addObject("datos", reporteService.listarTodos());
+        if (buscar != null && !buscar.isBlank()) {
+            mav.addObject("datos",
+                    reporteService.buscarReportes(buscar));
+        } else {
+            mav.addObject("datos",
+                    reporteService.listarTodos());
+        }
+
         return mav;
     }
 }
