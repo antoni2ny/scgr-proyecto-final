@@ -31,6 +31,16 @@ SCGR es una aplicación web para la administración, generación y consulta de r
 6. Acceder desde el navegador a:
 http://localhost:8080
 
+## Base de datos
+
+Los scripts SQL se encuentran dentro de la carpeta:
+
+database/
+
+Archivos incluidos:
+- schema.sql
+- data.sql
+
 ## Usuarios de prueba
 
 - ADMIN: 1001
