@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container mt-4">
+    <div class="p-4 mb-4 rounded-3 shadow"
+         style="background: linear-gradient(90deg, #212529, #343a40); color: white;">
+        <h1 class="display-5 fw-bold text=white">
+            Bienvenido al sistema SCGR
+        </h1>
+        <p class="fs-5 text=white">
+            Sistema de Control y Generación de Reportes
+        </p>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4" sec:authorize="hasAnyRole('ADMIN', 'USER', 'CONSULTA')">
+            <div class="card bg-dark text-white shadow-sm h-100 border-secondary">
+                <div class="card-body">
+                    <h4 class="card-title">Reportes</h4>
+                    <p class="card-text">
+                        Administración y seguimiento de reportes.
+                    </p>
+                    <a th:href="@{/reportes}" class="btn btn-primary">
+                        Ir a reportes
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('ADMIN')">
+            <div class="card bg-dark text-white shadow-sm h-100 border-secondary">
+                <div class="card-body">
+                    <h4 class="card-title">Usuarios</h4>
+                    <p class="card-text">
+                        Gestión de usuarios y roles del sistema.
+                    </p>
+                    <a th:href="@{/usuarios}" class="btn btn-primary">
+                        Ir a usuarios
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" sec:authorize="hasRole('ADMIN')">
+            <div class="card bg-dark text-white shadow-sm h-100 border-secondary">
+                <div class="card-body">
+                    <h4 class="card-title">Bitácora</h4>
+                    <p class="card-text">
+                        Consulta de movimientos y actividad del sistema.
+                    </p>
+                    <a th:href="@{/bitacora}" class="btn btn-primary">
+                        Ver bitácora
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{plantillas/plantilla::footer}"></footer>
+
+</body>
+</html>

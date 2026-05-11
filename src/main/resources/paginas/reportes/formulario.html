@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container mt-4">
+    <div class="p-4 rounded-3 shadow"
+         style="background: linear-gradient(90deg, #212529, #343a40);">
+        <h1 class="text-white"
+            th:text="${reporte.idReporte == null} ? 'Alta de Reporte' : 'Editar Reporte'">
+        </h1>
+        <form th:action="@{/reportes/guardar}" th:object="${reporte}" method="post">
+            <input type="hidden" th:field="*{idReporte}">
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                <p><strong>Verifique los siguientes inconvenientes:</strong></p>
+                <ul>
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                </ul>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-white">Nombre:</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Ingrese el nombre del reporte"
+                       th:field="*{nombre}">
+                <div class="text-white"
+                     th:if="${#fields.hasErrors('nombre')}"
+                     th:errors="*{nombre}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-white">Descripción:</label>
+                <textarea class="form-control"
+                          placeholder="Ingrese una descripción del reporte"
+                          th:field="*{descripcion}"></textarea>
+                <div class="text-white"
+                     th:if="${#fields.hasErrors('descripcion')}"
+                     th:errors="*{descripcion}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-white">Usuario:</label>
+                <input type="text"
+                       class="form-control"
+                       th:value="${usuarioLogueado.nombreCompleto}"
+                       readonly>
+                <input type="hidden"
+                       th:field="*{idUsuario}"
+                       th:value="${usuarioLogueado.idUsuario}">
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-white">Estatus:</label>
+                <select class="form-select" th:field="*{idEstatus}">
+                    <option value="">-- Seleccione un estatus --</option>
+                    <option th:each="e : ${estatuses}"
+                            th:value="${e.idEstatus}"
+                            th:text="${e.nombre}">
+                    </option>
+                </select>
+                <div class="text-white"
+                     th:if="${#fields.hasErrors('idEstatus')}"
+                     th:errors="*{idEstatus}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-white">Tipo de reporte:</label>
+                <select class="form-select" th:field="*{idTipoReporte}">
+                    <option value="">-- Seleccione un tipo de reporte --</option>
+                    <option th:each="t : ${tiposReporte}"
+                            th:value="${t.idTipoReporte}"
+                            th:text="${t.nombre}">
+                    </option>
+                </select>
+                <div class="text-white"
+                     th:if="${#fields.hasErrors('idTipoReporte')}"
+                     th:errors="*{idTipoReporte}">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-light">Guardar</button>
+            <a th:href="@{/reportes}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</main>
+<footer th:replace="~{plantillas/plantilla::footer}"></footer>
+</body>
+</html>

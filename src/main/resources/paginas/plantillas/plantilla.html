@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>SCGR</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/bootstrap/css/jquery-ui.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet"/>
+    <link th:href="@{/tema/mitema.css}" rel="stylesheet"/>
+
+</head>
+<body>
+<header th:fragment="header">
+    <div th:replace="~{plantillas/navbar :: navbar}"></div>
+</header>
+
+<div th:fragment="alerts">
+    <div th:replace="~{plantillas/alerts :: alerts}"></div>
+</div>
+<footer th:fragment="footer">
+    <div class="bg-dark text-white text-center p-4 mt-5">
+        SCGR - Sistema de Control y Generación de Reportes
+    </div>
+
+    <script th:src="@{/bootstrap/js/jquery-3.6.3.js}"></script>
+    <script th:src="@{/bootstrap/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/bootstrap/js/popper.min.js}"></script>
+</footer>
+<script th:fragment="paginaScripts">
+    document.addEventListener("DOMContentLoaded", function () {
+
+        setTimeout(function () {
+            let alert = document.getElementById("alertMessage");
+            if (alert) {
+                let bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }
+        }, 3000);
+
+    });
+</script>
+</body>
+</html>

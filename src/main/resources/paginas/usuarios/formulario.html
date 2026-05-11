@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="es">
+<head th:replace="~{plantillas/plantilla :: head}"></head>
+<body>
+<header th:replace="~{plantillas/plantilla :: header}"></header>
+<main class="container mt-4">
+    <div class="p-4 rounded-3 shadow"
+         style="background: linear-gradient(90deg, #212529, #343a40);">
+        <h1 class="text-white"
+            th:text="${usuario.idUsuario == null} ? 'Alta de Usuario' : 'Editar Usuario'"></h1>
+        <form th:action="@{/usuarios/guardar}"
+              th:object="${usuario}"
+              method="post">
+            <input type="hidden" th:field="*{idUsuario}">
+            <div th:if="${#fields.hasErrors('*')}"
+                 class="alert alert-danger">
+                <p><strong>Verifique los siguientes inconvenientes:</strong></p>
+                <ul>
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                </ul>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-white">Número de empleado:</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Ingrese el número de empleado"
+                       th:field="*{numeroEmpleado}">
+                <div class="text-white"
+                     th:if="${#fields.hasErrors('numeroEmpleado')}"
+                     th:errors="*{numeroEmpleado}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-white">Nombre completo:</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Ingrese el nombre completo"
+                       th:field="*{nombreCompleto}">
+                <div class="text-white"
+                     th:if="${#fields.hasErrors('nombreCompleto')}"
+                     th:errors="*{nombreCompleto}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-white">Contraseña:</label>
+                <input type="password"
+                       class="form-control"
+                       placeholder="Ingrese la contraseña"
+                       th:field="*{password}">
+                <small th:if="${usuario.idUsuario != null}"
+                       class="text-white">
+                    Deje la contraseña en blanco si no desea cambiarla
+                </small>
+                <div class="text-white"
+                     th:if="${#fields.hasErrors('password')}"
+                     th:errors="*{password}">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-white">Dependencia:</label>
+                <select class="form-select"
+                        th:field="*{idDependencia}">
+                    <option value="">-- Seleccione una dependencia --</option>
+                    <option th:each="dep : ${dependencias}"
+                            th:value="${dep.idDependencia}"
+                            th:text="${dep.nombre}">
+                    </option>
+                </select>
+                <div class="text-white"
+                     th:if="${#fields.hasErrors('idDependencia')}"
+                     th:errors="*{idDependencia}">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-light">
+                Guardar
+            </button>
+            <a th:href="@{/usuarios}"
+               class="btn btn-secondary">
+                Cancelar
+            </a>
+        </form>
+    </div>
+</main>
+<footer th:replace="~{plantillas/plantilla::footer}"></footer>
+</body>
+</html>
